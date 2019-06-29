@@ -45,6 +45,7 @@ public class BraceToTree {
 
     //"(( ((1,2,9),0,3,7),4,10) ,5,6,8,11,12)"
     public RefactorNode changeBrace(int pos){
+        
         int startPosition=pos;
         int i=pos;
         RefactorNode head=new RefactorNode(null);
