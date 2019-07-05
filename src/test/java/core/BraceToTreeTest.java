@@ -1,5 +1,6 @@
 package core;
 
+import com.sun.istack.internal.NotNull;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -27,13 +28,14 @@ public class BraceToTreeTest {
     @Before
     public void init() {
 
-        braceToTree = spy(BraceToTree.class);
+
         Answer<String> answer = new Answer<String>() {
+
             public String answer(InvocationOnMock invocationOnMock) throws Throwable {
                 return invocationOnMock.getArgument(0).toString() + 'c';
             }
         };
-        when(braceToTree.headNameGeneration(anyString())).thenAnswer(answer);
+        //when( braceToTree.headNameGeneration(anyString())).thenAnswer(answer);
     }
 
     public String refactorNodePrint(RefactorNode rn) {

@@ -24,14 +24,9 @@ public class GraphGeneration {
 
     public void generateGraphFromFile() throws Exception {
         StaticLoggerBinder staticLoggerBinder=StaticLoggerBinder.getSingleton();
-
         Graphviz graphviz= Graphviz.fromFile(new File(this.getClass().getResource("/cluster.gv").toURI()));
-
-
         Renderer renderer= graphviz.render(Format.PNG);
-
         renderer.toFile(new File(this.getClass().getResource("/").toURI().getPath()+"/cluster.png"));
-
     }
 
     public void generate(RefactorMatrix refactorMatrix, String[] columnNames) throws Exception {

@@ -23,6 +23,6 @@ public class RefactorMatrix {
                 data[i][j]=-1;
             }
         }
-        refactorNode.generateSubMatrix(data);
+        //refactorNode.generateSubMatrix(data);
     }
 }

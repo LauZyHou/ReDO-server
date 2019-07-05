@@ -18,15 +18,7 @@ public class BraceToTree {
 //    public static RefactorNode refactorNode;
     public String str;
 
-    /**
-     * It can be optimized to return the integer if hashing function is designed pretty well.
-     * Will be supported later
-     * @param s
-     * @return
-     */
-    public String headNameGeneration(String s){
-        return s+'d';
-    }
+
     public int parenthesesMatch(int start){
         int unmatchedLeftBrace=0;
         for(int i=start;i<str.length();i++){
@@ -75,7 +67,7 @@ public class BraceToTree {
                     head.addChild(new RefactorNode( String.valueOf(parseResult)));
                     Logger.getGlobal().info("out"+i);
                 }
-                head.setData(headNameGeneration(head.getNodes().get(0).getData()));
+                head.setData();
 //                refactorNode=head;
                 return head;
             }
@@ -86,7 +78,7 @@ public class BraceToTree {
             int parseResult = Integer.parseInt(str.substring(startPosition));
             head.addChild(new RefactorNode(String.valueOf(parseResult)));
         }
-        head.setData(head.getNodes().get(0).getData()+'c');
+        head.setData();
 //        refactorNode=head;
         return head;
     }
