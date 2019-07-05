@@ -19,7 +19,7 @@ Tool aims to provide a solution for the reconstruction of design class diagrams,
 
 Both static export (including PDF and SVG formats) and dynamic support (web and mobile access) is supported.
 
-Warranty is supported according to Github. If bugs are reported, fixing and strengthening this project is possible if time's allowed. To report the problem, please open (or create) an issue at this project on the GitHub. Contact us by [email] (10165101169@stu.ecnu.edu.cn) if eaging to get response.
+Warranty is supported according to Github. If bugs are reported, fixing and strengthening this project is possible if time's allowed. To report the problem, please open (or create) an issue at this project on the GitHub. Contact us by [email](10165101169@stu.ecnu.edu.cn) if eaging to get response.
 
 
 ## Future
