@@ -1,82 +1,68 @@
 package core;
-import guru.nidi.graphviz.*;
-import guru.nidi.graphviz.attribute.Color;
-import guru.nidi.graphviz.attribute.Label;
-import guru.nidi.graphviz.attribute.Shape;
-import guru.nidi.graphviz.attribute.Style;
-import guru.nidi.graphviz.engine.*;
-import guru.nidi.graphviz.model.Graph;
-import guru.nidi.graphviz.model.*;
-import guru.nidi.graphviz.service.*;
-import jdk.nashorn.internal.ir.annotations.Immutable;
-import org.slf4j.impl.*;
-import sun.net.www.protocol.mailto.MailToURLConnection;
+import guru.nidi.graphviz.engine.Format;
+import guru.nidi.graphviz.engine.Graphviz;
+import guru.nidi.graphviz.engine.GraphvizJdkEngine;
+import guru.nidi.graphviz.engine.Renderer;
+import guru.nidi.graphviz.model.Factory;
+import guru.nidi.graphviz.model.Node;
+import org.slf4j.impl.StaticLoggerBinder;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.net.URL;
 import java.util.Collections;
 
-import static guru.nidi.graphviz.model.Factory.graph;
-import static guru.nidi.graphviz.model.Factory.node;
-import static guru.nidi.graphviz.model.Link.to;
 
 public class GraphGeneration {
 
-    public void generateGraphFromFile() throws Exception {
-        StaticLoggerBinder staticLoggerBinder=StaticLoggerBinder.getSingleton();
-        Graphviz graphviz= Graphviz.fromFile(new File(this.getClass().getResource("/cluster.gv").toURI()));
-        Renderer renderer= graphviz.render(Format.PNG);
-        renderer.toFile(new File(this.getClass().getResource("/").toURI().getPath()+"/cluster.png"));
+    public Image generateGraphFromFile() throws Exception {
+        StaticLoggerBinder staticLoggerBinder = StaticLoggerBinder.getSingleton();
+        Graphviz graphviz = Graphviz.fromFile(new File(this.getClass().getResource("/cluster.gv").toURI()));
+        Renderer renderer = graphviz.render(Format.PNG);
+        Image image=renderer.toImage();
+        return image;
+//        renderer.toFile(new File(this.getClass().getResource("/").toURI().getPath() + "/cluster.png"));
     }
 
-    public void generate(RefactorMatrix refactorMatrix, String[] columnNames) throws Exception {
-        if(refactorMatrix.data.length!=columnNames.length){
+
+    public Image generate(double[][] refactorMatrix, String[] columnNames) throws Exception {
+        if (refactorMatrix.length != columnNames.length) {
             throw new IllegalArgumentException("Cannot solve the meanings of each column.");
         }
-        StaticLoggerBinder staticLoggerBinder=StaticLoggerBinder.getSingleton();
-
-        Node[] nodes=new Node[columnNames.length];
-        for(int i=0;i<columnNames.length;i++){
-            nodes[i]=Factory.node(columnNames[i]);
+        StaticLoggerBinder staticLoggerBinder = StaticLoggerBinder.getSingleton();
+        Node[] nodes = new Node[columnNames.length];
+        for (int i = 0; i < columnNames.length; i++) {
+            nodes[i] = Factory.node(columnNames[i]);
         }
-        Graph g=graph("res").directed();
-        for(int i=0;i<columnNames.length;i++){
-            for(int j=0;j<columnNames.length;j++){
-                g.with(
-                nodes[i].link(
-                        nodes[j]
-//                ).with( Label.of(Double.toString( refactorMatrix.data[i][j])))
-                )
-                );
+        StringBuilder generateCommand = new StringBuilder();
+        generateCommand.append("digraph{\n");
+        for (int i = 0; i < columnNames.length; i++) {
+            //generateCommand.append("nodes["+i+"].link(");
+            for (int j = 0; j < columnNames.length - 1; j++) {
+                if (refactorMatrix[i][j] != 0.0D)
+                    generateCommand.append("node" + i + "->node" + j + "[label=\"" + Double.toString(refactorMatrix[i][j]) + "\"]\n");
             }
         }
-
-
-//         final Graph g = graph("ex2").directed().with(
-//                nodes[i].link(
-//                        to(printf).with(Style.BOLD, Label.of("100 times"), Color.RED)
-//                 ),
-//
-//           );
-
-//        Node aa=Factory.node("c");
-//        Node bb=Factory.node("b");
-//        bb.linkTo(aa);
-
-
-
-        Graphviz graphviz;
-        graphviz=Graphviz.fromGraph(g);
-
-
-        Renderer renderer= graphviz.render(Format.PNG);
+        generateCommand.append("}");
+        Graphviz graphviz = Graphviz.fromString(generateCommand.toString());
+        Renderer renderer = graphviz.render(Format.PNG);
         Graphviz.useEngine(Collections.singletonList(new GraphvizJdkEngine()));
-        renderer.toFile(new File(this.getClass().getResource("/").toURI().getPath()+"/cluster.png"));
-
+        Image image=renderer.toImage();
+        return image;
+//        renderer.toFile(new File(this.getClass().getResource("/").toURI().getPath() + "/cluster.png"));
     }
 
-
-
-
-
+    public Image generateByRefactorNode(RefactorNode showNode) {
+        double[][]matrix= showNode.getComplexityMatrix();
+        String[] columnNames=new String[showNode.getNodes().size()];
+        for(int i=0;i<showNode.getNodes().size();i++){
+            columnNames[i]=showNode.getNodes().get(i).getData();
+        }
+        try {
+            return generate(matrix,columnNames);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

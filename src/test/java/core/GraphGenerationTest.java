@@ -42,9 +42,9 @@ public class GraphGenerationTest {
                 {0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D, 0.0D, 0.0D, 0.5D, 4.0D, 0.0D},
                 {0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.5D, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D}};
         GraphGeneration graphGeneration=new GraphGeneration();
-        RefactorMatrix refactorMatrix=new RefactorMatrix(data);
-        String[] name={"a","b","c","d","e","f","g","h","i","j","k","l","m"};
-        graphGeneration.generate(refactorMatrix,name);
+
+        String[] name={"a","b","c","d","e","f","g","h","i","j","k","l","m"}; //useless
+        graphGeneration.generate(data,name);
     }
 
     @Test

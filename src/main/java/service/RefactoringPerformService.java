@@ -12,9 +12,10 @@ public class RefactoringPerformService {
      * Step 1: Convert from matrix to structured components, which is displayed as String.
      * Step 2: Convert from string to Tree structure.
      * Step 3: Generate the complexity matrix in each RefactorNode object.
-     *  Label od each column is from 0 to n-1, which is defined in algorithm.
+     *  Label of each column is from 0 to n-1, which is manually-defined in specific algorithm.
      *
-     * @param matrix
+     * @param matrix The original matrix of complexity
+     * @return The head node of refactored structure, which is filled with complexity matrix
      */
     public RefactorNode performRefactoring(double[][] matrix){
         String res1 = GeneticAlgorithm.refactor(matrix);
