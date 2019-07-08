@@ -16,6 +16,7 @@ public class RefactorNode {
         this.nodes=new ArrayList<RefactorNode>();
         this.data=data;
     }
+    private boolean combined=false;
 
 
 
@@ -48,7 +49,12 @@ public class RefactorNode {
      * @return
      */
     public void headNameGeneration(String s){
+        combined=true;
         this.data= s+'d';
+    }
+
+    public boolean isCombined() {
+        return combined;
     }
 
     @Override

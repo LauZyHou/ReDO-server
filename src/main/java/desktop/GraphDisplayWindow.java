@@ -1,23 +1,33 @@
 package desktop;
 
-import core.GraphGeneration;
 import core.RefactorNode;
+import sun.misc.GC;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
-import java.util.List;
+import javax.swing.event.MouseInputListener;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Stack;
 
 public class GraphDisplayWindow extends JFrame {
     private static final long serialVersionUID = 1537251478935267819L;
 
-    JToolBar subGraphClick;
-    //List<JButton> subGraphButton;
-    JLabel picture;
-   final RefactorNode refactorNode;
-
+    private JToolBar subGraphClickBar;
+    private JLabel picture;
+    private JPanel contentPane;
+    private Stack<RefactorNode> history;
+    private GraphGeneration graphGeneration;
+   private static final int WINDOW_WIDTH=1000;
+    private static final int          WINDOW_HEIGHT=1000;
+    /**
+     * Just initial the window, and run {@method displayNodeGraph} method.
+     * @param displayNode initial node
+     */
     public GraphDisplayWindow(RefactorNode displayNode) {
         // Title bar
         super("Graph Display");
@@ -27,52 +37,135 @@ public class GraphDisplayWindow extends JFrame {
                 System.exit(0);
             }
         });
+        this.history=new Stack<>();
+
+        // Window Layout
+        this.setSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         this.setResizable(true);
-        this.refactorNode = displayNode;
+        subGraphClickBar = new JToolBar();
+
+        // Content Layout
+        contentPane = new JPanel();
+        contentPane.setLayout(new BorderLayout());
+
+
+        // initial necessary object
+        graphGeneration = new GraphGeneration();
+
         displayNodeGraph(displayNode);
     }
 
-    private void displayNodeGraph(RefactorNode displayNode) {
-        GraphGeneration graphGeneration = new GraphGeneration();
-        picture = new JLabel(new ImageIcon(graphGeneration.generateByRefactorNode(displayNode)));
+    public void displayNodeGraph(RefactorNode displayNode) {
+        contentPane.removeAll();
+        System.out.println(displayNode.getNodes().size());
+        BufferedImage image = graphGeneration.generateByRefactorNode(displayNode);
 
-        subGraphClick = new JToolBar();
-        addWindowButtons(refactorNode.getNodes());
+        // Set Layout
+        picture = new JLabel(new ImageIcon(image));
+        picture.setBounds(0,0,fitWindowSize(image.getWidth(), image.getHeight()).width,fitWindowSize(image.getWidth(), image.getHeight()).height);
+//        picture.setPreferredSize();
+        setPictureLayout();
+        setBarButtons(displayNode);
+
+        setBarLayout();
+        setContentPane(contentPane);
+        contentPane.setBackground(Color.WHITE);
+
+        contentPane.repaint();
+        System.out.println("finished");
     }
 
-    protected void addWindowButtons(List<RefactorNode> nodes) {
-        for ( int i = 0; i < nodes.size(); i++) {
-            addButton(nodes.get(i).getData(), null, event -> nodes.get(i), subGraphClick);
+    private void setBarLayout() {
+        // Layout the content pane.
+        subGraphClickBar.setPreferredSize(new Dimension(WINDOW_WIDTH, 30));
+        subGraphClickBar.setFloatable(false);
+        subGraphClickBar.setOrientation(SwingConstants.HORIZONTAL);
+        contentPane.add(subGraphClickBar, BorderLayout.NORTH);
+    }
+
+    private void setPictureLayout() {
+        // Layout the content pane.
+        //picture.setSize(fitWindowSize(picture.getWidth(), picture.getHeight()));
+        DragListener listener=new DragListener();
+        picture.addMouseListener(listener);
+        picture.addMouseMotionListener(listener);
+        // add() is valid only when contentPane is empty.
+        contentPane.add(picture, BorderLayout.CENTER);
+
+    }
+
+    private Dimension fitWindowSize(int width, int height) {
+
+        if(width*1.0/WINDOW_WIDTH>=height*1.0/WINDOW_HEIGHT){ //compress by width, leave height
+            height=(int)Math.round( WINDOW_WIDTH*1.0/width*height);
+            width=WINDOW_WIDTH;
         }
-        subGraphClick.addSeparator();
-        addButton("Back", "Back to Parent", event -> {
-            return;
-        }, subGraphClick);
+        else{
+            width=(int)Math.round( WINDOW_HEIGHT*1.0/height*width);
+            height=WINDOW_HEIGHT;
+        }
+        return new Dimension(width,height);
     }
 
+    private void setBarButtons(RefactorNode refactorNode) {
+        List<RefactorNode> nodes=refactorNode.getNodes();
+        subGraphClickBar.removeAll();
+        for (int i = 0; i < nodes.size(); i++) {
+            RefactorNode t = nodes.get(i);
+            JButton button = new JButton(nodes.get(i).getData());
+            if(t.isCombined())  button.setEnabled(true);
+            else button.setEnabled(false);
+            button.addActionListener(e -> {
+                button.setEnabled(false);
+                history.push(refactorNode);
+                displayNodeGraph(t);
+            });
+            subGraphClickBar.add(button);
+        }
+        subGraphClickBar.addSeparator();
+        if (!history.empty()) {
+            JButton button = new JButton("Back");
+            button.setEnabled(true);
+            button.addActionListener(e -> {
 
-    /**
-     * Do not revise, it's the function to add a button.
-     *
-     * @param explicitText   the name explicit shown on the board
-     * @param implicitText   the name implicit shown on the board (when the mouse touch the button, it'll show.)
-     * @param actionListener the actions if clicking the button.
-     */
-    private JButton addButton(String explicitText, String implicitText, ActionListener actionListener, boolean enabled, javax.swing.JToolBar toolbar) {
-        JButton button;
-        button = new JButton(explicitText);
-        button.setToolTipText(implicitText);
-        button.setEnabled(enabled);
-        // when this button is pushed it calls animationWindow.setMode(true)
-        button.addActionListener(actionListener);
-        toolbar.add(button);
-        return button;
+                RefactorNode his= history.pop();
+                displayNodeGraph(his);
+
+            });
+            subGraphClickBar.add(button);
+        }
+
     }
 
-    private JButton addButton(String explicitText, String implicitText, ActionListener actionListener, javax.swing.JToolBar toolbar) {
-        return addButton(explicitText, implicitText, actionListener, true, toolbar);
+    class DragListener implements MouseInputListener {
+        Point point = new Point(0, 0);
+
+        public void mousePressed(MouseEvent e) {
+            point = SwingUtilities.convertPoint(picture, e.getPoint(), picture.getParent());
+            picture.repaint();
+        }
+
+        public void mouseDragged(MouseEvent e) {
+            Point newPoint = SwingUtilities.convertPoint(picture, e.getPoint(), picture.getParent());
+            picture.setLocation(picture.getX() + (newPoint.x - point.x), picture.getY() + (newPoint.y - point.y));
+            point = newPoint;
+            picture.repaint();
+        }
+
+        public void mouseReleased(MouseEvent e) {
+        }
+
+        public void mouseEntered(MouseEvent e) {
+        }
+
+        public void mouseExited(MouseEvent e) {
+        }
+
+        public void mouseClicked(MouseEvent e) {
+        }
+
+        public void mouseMoved(MouseEvent e) {
+        }
     }
-
-
 }
 

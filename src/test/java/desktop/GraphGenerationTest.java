@@ -1,5 +1,6 @@
-package core;
+package desktop;
 
+import desktop.GraphGeneration;
 import org.junit.Test;
 
 import java.io.File;
@@ -7,7 +8,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.logging.Logger;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.spy;
 
 public class GraphGenerationTest {
@@ -50,6 +50,6 @@ public class GraphGenerationTest {
     @Test
     public void generateFromFileTest() throws Exception {
         GraphGeneration graphGeneration = new GraphGeneration();
-        graphGeneration.generateGraphFromFile();
+        graphGeneration.generateGraphFromFile(new File(this.getClass().getResource("/cluster.gv").toURI()));
     }
 }
