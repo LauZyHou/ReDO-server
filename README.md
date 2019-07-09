@@ -24,11 +24,11 @@ Warranty is supported according to Github. If bugs are reported, fixing and stre
 
 ## Future
 
-[-] Upload languages can be expanded from SysML to UML, and more.
+- [ ] Upload languages can be expanded from SysML to UML, and more.
 
-[-] Since different softwares provide different encoding formats of modeling language, we will try to compatitable for more softwares. 
+- [ ] Since different softwares provide different encoding formats of modeling language, we will try to compatitable for more softwares. 
 
-[-] Algorithm for refactoring may change and optimize later. For better experience, we'll keep both versions (for users to choose) until stable version is published.
+- [ ] Algorithm for refactoring may change and optimize later. For better experience, we'll keep both versions (for users to choose) until stable version is published.
 
 ## Technology Stack
 
