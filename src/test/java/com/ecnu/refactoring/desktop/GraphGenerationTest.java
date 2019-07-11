@@ -1,6 +1,6 @@
-package desktop;
+package com.ecnu.refactoring.desktop;
 
-import desktop.GraphGeneration;
+import com.ecnu.refactoring.desktop.GraphGeneration;
 import org.junit.Test;
 
 import java.io.File;

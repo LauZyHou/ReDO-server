@@ -1,11 +1,8 @@
-package desktop;
-import core.RefactorNode;
+package com.ecnu.refactoring.desktop;
+import com.ecnu.refactoring.core.RefactorNode;
 import guru.nidi.graphviz.engine.*;
-import guru.nidi.graphviz.model.Factory;
-import guru.nidi.graphviz.model.Node;
 import org.slf4j.impl.StaticLoggerBinder;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Collections;

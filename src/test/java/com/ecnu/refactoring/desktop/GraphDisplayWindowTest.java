@@ -1,8 +1,8 @@
-package desktop;
+package com.ecnu.refactoring.desktop;
 
-import core.RefactorNode;
+import com.ecnu.refactoring.core.RefactorNode;
 import org.junit.Test;
-import service.RefactoringPerformService;
+import com.ecnu.refactoring.service.RefactoringPerformService;
 
 import java.util.Random;
 import java.util.logging.Level;

@@ -1,15 +1,16 @@
-package core;
+package com.ecnu.refactoring.core;
 
-//import core.GeneticAlgorithm;
+//import com.ecnu.refactoring.core.GeneticAlgorithm;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Random;
 import java.util.Stack;
 
 import static org.junit.Assert.*;
 
 public class GeneticAlgorithmTest {
-//    public core.GeneticAlgorithm geneticAlgorithm;
+//    public com.ecnu.refactoring.core.GeneticAlgorithm geneticAlgorithm;
     @Before
     public void init() {
 
@@ -58,5 +59,36 @@ public class GeneticAlgorithmTest {
         }
         assertTrue(checkStack.empty());
     }
+@Test
+    public void sparseMatrixTest(){
+        double[][] pressureMatrix = new double[100][100];
 
+        for (int i = 0; i < pressureMatrix.length;i++) {
+            pressureMatrix[i][i] = Math.random()*1.0 * 50;
+            for (int j = 0; j < pressureMatrix.length; j++) {
+                pressureMatrix[i][j]=0.0D;
+            }
+        }
+
+        for (int i=0;i<200;i++) {
+            Random random = new Random();
+            int x = random.nextInt(100);
+            int y = random.nextInt(100);
+            pressureMatrix[x][y] = Math.random() * 50;
+            pressureMatrix[y][x] = pressureMatrix[x][y];
+
+        }
+    String res = GeneticAlgorithm.refactor(pressureMatrix);
+    //For simplicity, just check the parenthesis are matched.
+    Stack<Byte> checkStack = new Stack<Byte>();
+    for (int i = 0; i < res.length(); i++) {
+        if (res.charAt(i) == '(') {
+            checkStack.push((byte) 1);
+        } else if (res.charAt(i) == ')') {
+            checkStack.pop();
+        }
+    }
+    assertTrue(checkStack.empty());
+
+    }
 }

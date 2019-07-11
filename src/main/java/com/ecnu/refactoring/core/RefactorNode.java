@@ -1,7 +1,4 @@
-package core;
-
-import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
-import org.apache.logging.log4j.core.tools.picocli.CommandLine;
+package com.ecnu.refactoring.core;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,7 +15,13 @@ public class RefactorNode {
     }
     private boolean combined=false;
 
-
+    public String[] getChildData(){
+        String[] res=new String[nodes.size()];
+        for (int i = 0; i < nodes.size(); i++) {
+            res[i]=nodes.get(i).getData();
+        };
+        return res;
+    }
 
     public void addChild(RefactorNode child){
         this.nodes.add(child);

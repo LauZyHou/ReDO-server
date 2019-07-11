@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package core;
+package com.ecnu.refactoring.core;
 
 import guru.nidi.graphviz.attribute.*;
 import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.engine.GraphvizJdkEngine;
-import guru.nidi.graphviz.engine.GraphvizV8Engine;
 import guru.nidi.graphviz.model.*;
 import org.junit.Test;
 
@@ -27,10 +26,8 @@ import java.util.Collections;
 
 import static guru.nidi.graphviz.attribute.Attributes.attr;
 import static guru.nidi.graphviz.attribute.Records.rec;
-import static guru.nidi.graphviz.attribute.Records.turn;
 import static guru.nidi.graphviz.engine.Format.PNG;
 import static guru.nidi.graphviz.engine.Format.SVG;
-import static guru.nidi.graphviz.model.Compass.WEST;
 import static guru.nidi.graphviz.model.Factory.*;
 import static guru.nidi.graphviz.model.Link.to;
 

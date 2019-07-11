@@ -1,14 +1,12 @@
-package desktop;
+package com.ecnu.refactoring.desktop;
 
-import core.RefactorNode;
-import sun.misc.GC;
+import com.ecnu.refactoring.core.RefactorNode;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;

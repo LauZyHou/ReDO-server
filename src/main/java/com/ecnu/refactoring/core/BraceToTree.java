@@ -1,7 +1,6 @@
-package core;
+package com.ecnu.refactoring.core;
 
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**

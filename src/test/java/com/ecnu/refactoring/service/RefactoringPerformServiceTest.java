@@ -1,12 +1,10 @@
-package service;
+package com.ecnu.refactoring.service;
 
-import core.RefactorNode;
+import com.ecnu.refactoring.core.RefactorNode;
 import org.junit.Test;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static org.junit.Assert.*;
 
 public class RefactoringPerformServiceTest {
 

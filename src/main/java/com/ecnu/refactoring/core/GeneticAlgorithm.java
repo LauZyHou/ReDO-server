@@ -1,4 +1,4 @@
-package core;
+package com.ecnu.refactoring.core;
 
 import Jama.Matrix;
 import Jama.SingularValueDecomposition;

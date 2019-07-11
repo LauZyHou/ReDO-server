@@ -1,13 +1,18 @@
-package service;
+package com.ecnu.refactoring.service;
 
-import core.BraceToTree;
-import core.GeneticAlgorithm;
-import core.RefactorNode;
+import com.ecnu.refactoring.core.BraceToTree;
+import com.ecnu.refactoring.core.GeneticAlgorithm;
+import com.ecnu.refactoring.core.RefactorNode;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
+import java.util.Map;
 
+@Service
 public class RefactoringPerformService {
+    public static Stack<RefactorNode> store=new Stack<>();
     /**
      * Step 1: Convert from matrix to structured components, which is displayed as String.
      * Step 2: Convert from string to Tree structure.
@@ -26,6 +31,7 @@ public class RefactoringPerformService {
             label.add(String.valueOf(i));
         }
         res.generateStructuredComplexityMatrix(matrix,label);
+        store.push(res);
         return res;
     }
 }

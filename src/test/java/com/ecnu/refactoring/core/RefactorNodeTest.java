@@ -1,16 +1,8 @@
-package core;
+package com.ecnu.refactoring.core;
 
-import com.kitfox.svg.A;
-import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
-import org.hamcrest.core.Is;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.mockito.internal.hamcrest.HamcrestArgumentMatcher;
-import org.mockito.internal.matchers.Contains;
-
-import java.util.Arrays;
-import java.util.List;
 
 import static org.hamcrest.core.AllOf.allOf;
 import static org.junit.Assert.*;
