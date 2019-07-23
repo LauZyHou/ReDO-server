@@ -46,11 +46,18 @@ public class GraphGeneration {
         return image;
     }
 
-    public BufferedImage generateByRefactorNode(RefactorNode showNode) {
+    public BufferedImage generateByRefactorNode(RefactorNode showNode,String[] columnMeaning) {
         double[][]matrix= showNode.getComplexityMatrix();
         String[] columnNames=new String[showNode.getNodes().size()];
         for(int i=0;i<showNode.getNodes().size();i++){
-            columnNames[i]=showNode.getNodes().get(i).getData();
+            String str=showNode.getNodes().get(i).getData();
+            if(!showNode.getNodes().get(i).isCombined()) {
+                int index = Integer.parseInt(str);
+                columnNames[i]= columnMeaning[index];
+            }
+            else{
+                columnNames[i]=str;
+            }
         }
         try {
             return generate(matrix,columnNames);

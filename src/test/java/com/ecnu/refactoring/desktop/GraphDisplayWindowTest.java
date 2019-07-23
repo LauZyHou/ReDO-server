@@ -1,14 +1,38 @@
 package com.ecnu.refactoring.desktop;
 
 import com.ecnu.refactoring.core.RefactorNode;
+import com.ecnu.refactoring.input.RefactorMatrix;
+import com.ecnu.refactoring.input.ea.xmi1.EAXMIFileParser;
 import org.junit.Test;
 import com.ecnu.refactoring.service.RefactoringPerformService;
 
+import java.io.File;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GraphDisplayWindowTest {
+
+    @Test
+    public void fileIncludeTest() {
+        Logger.getGlobal().setLevel(Level.SEVERE);
+        EAXMIFileParser parser=new EAXMIFileParser();
+        RefactorMatrix refactorMatrix;
+        try {
+            refactorMatrix= parser.parseFile(new File(this.getClass().getResource("/testforuml11.xml").toURI()));
+            RefactoringPerformService refactoringPerformService = new RefactoringPerformService();
+            RefactorNode refactorNode = refactoringPerformService.performRefactoring(refactorMatrix.getRefactorMatrix());
+            GraphDisplayWindow graphDisplayWindow = new GraphDisplayWindow(refactorNode,refactorMatrix.getColumnMeaning());
+            graphDisplayWindow.setVisible(true);
+            while (true) {
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
     @Test
     public void simpleTest() {
         Logger.getGlobal().setLevel(Level.SEVERE);
@@ -27,9 +51,13 @@ public class GraphDisplayWindowTest {
                 {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0.5, 4, 0},
                 {0, 0, 0, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 1}
         };
+        String[] cm=new String[13];
+        for(int i=0;i<cm.length;i++){
+            cm[i]=String.valueOf(i);
+        }
         RefactoringPerformService refactoringPerformService = new RefactoringPerformService();
         RefactorNode refactorNode = refactoringPerformService.performRefactoring(simpleMatrix);
-        GraphDisplayWindow graphDisplayWindow = new GraphDisplayWindow(refactorNode);
+        GraphDisplayWindow graphDisplayWindow = new GraphDisplayWindow(refactorNode,cm);
         graphDisplayWindow.setVisible(true);
         while (true) {
         }
@@ -47,10 +75,13 @@ public class GraphDisplayWindowTest {
                 pressureMatrix[j][i]=pressureMatrix[i][j];
             }
         }
-
+        String[] cm=new String[100];
+        for(int i=0;i<cm.length;i++){
+            cm[i]=String.valueOf(i);
+        }
         RefactoringPerformService refactoringPerformService = new RefactoringPerformService();
         RefactorNode refactorNode = refactoringPerformService.performRefactoring(pressureMatrix);
-        GraphDisplayWindow graphDisplayWindow = new GraphDisplayWindow(refactorNode);
+        GraphDisplayWindow graphDisplayWindow = new GraphDisplayWindow(refactorNode,cm);
         graphDisplayWindow.setVisible(true);
         long end=System.currentTimeMillis();
         Logger.getGlobal().severe("Duration: "+(end-start));
@@ -79,10 +110,13 @@ public class GraphDisplayWindowTest {
             pressureMatrix[y][x] = pressureMatrix[x][y];
 
         }
-
+        String[] cm=new String[100];
+        for(int i=0;i<cm.length;i++){
+            cm[i]=String.valueOf(i);
+        }
         RefactoringPerformService refactoringPerformService = new RefactoringPerformService();
         RefactorNode refactorNode = refactoringPerformService.performRefactoring(pressureMatrix);
-        GraphDisplayWindow graphDisplayWindow = new GraphDisplayWindow(refactorNode);
+        GraphDisplayWindow graphDisplayWindow = new GraphDisplayWindow(refactorNode,cm);
         graphDisplayWindow.setVisible(true);
         long end=System.currentTimeMillis();
         Logger.getGlobal().severe("Duration: "+(end-start));

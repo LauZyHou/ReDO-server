@@ -53,7 +53,7 @@ public class RefactorNode {
      */
     public void headNameGeneration(String s){
         combined=true;
-        this.data= s+'d';
+        this.data= 'C'+s;
     }
 
     public boolean isCombined() {

@@ -1,6 +1,7 @@
 package com.ecnu.refactoring.desktop;
 
 import com.ecnu.refactoring.core.RefactorNode;
+import com.ecnu.refactoring.service.DesktopDemoShowService;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
@@ -19,14 +20,18 @@ public class GraphDisplayWindow extends JFrame {
     private JLabel picture;
     private JPanel contentPane;
     private Stack<RefactorNode> history;
+    //Very bad design!!!
+    private String[] columnMeaning;
     private GraphGeneration graphGeneration;
-   private static final int WINDOW_WIDTH=1000;
-    private static final int          WINDOW_HEIGHT=1000;
+    private static final int WINDOW_WIDTH=1000;
+    private static final int WINDOW_HEIGHT=1000;
+
+
     /**
      * Just initial the window, and run {@method displayNodeGraph} method.
      * @param displayNode initial node
      */
-    public GraphDisplayWindow(RefactorNode displayNode) {
+    public GraphDisplayWindow(RefactorNode displayNode,String[] columnMeaning) {
         // Title bar
         super("Graph Display");
         // respond to the window system asking us to quit
@@ -36,7 +41,7 @@ public class GraphDisplayWindow extends JFrame {
             }
         });
         this.history=new Stack<>();
-
+        this.columnMeaning=columnMeaning;
         // Window Layout
         this.setSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         this.setResizable(true);
@@ -56,7 +61,7 @@ public class GraphDisplayWindow extends JFrame {
     public void displayNodeGraph(RefactorNode displayNode) {
         contentPane.removeAll();
         System.out.println(displayNode.getNodes().size());
-        BufferedImage image = graphGeneration.generateByRefactorNode(displayNode);
+        BufferedImage image = graphGeneration.generateByRefactorNode(displayNode,columnMeaning);
 
         // Set Layout
         picture = new JLabel(new ImageIcon(image));
@@ -108,6 +113,17 @@ public class GraphDisplayWindow extends JFrame {
     private void setBarButtons(RefactorNode refactorNode) {
         List<RefactorNode> nodes=refactorNode.getNodes();
         subGraphClickBar.removeAll();
+
+        JButton fileUp = new JButton("Upload File...");
+        fileUp.setEnabled(true);
+        fileUp.addActionListener(e->{
+            JFileChooser fileDialog=new JFileChooser();
+            fileDialog.showDialog(this,"Choose XML File");
+            DesktopDemoShowService.show( fileDialog.getSelectedFile(),this);
+        });
+        subGraphClickBar.add(fileUp);
+
+
         for (int i = 0; i < nodes.size(); i++) {
             RefactorNode t = nodes.get(i);
             JButton button = new JButton(nodes.get(i).getData());

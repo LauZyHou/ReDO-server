@@ -1,16 +1,14 @@
 package com.ecnu.refactoring.entity;
 
-import javax.annotation.sql.DataSourceDefinition;
-
 public class TagMatrixDTO {
-    double[][] matrix;
-    String[] tag;
-    String name;
-    public TagMatrixDTO(){
+    private double[][] matrix;
+   private String[] tag;
+  private   String name;
+   public TagMatrixDTO(){
 
     }
 
-    public TagMatrixDTO(double[][] matrix, String[] tag,String name) {
+    public TagMatrixDTO(double[][] matrix, String[] tag, String name) {
         if(matrix.length!=tag.length){return;}
         if(matrix.length!=matrix[0].length){return;}
         this.matrix = matrix;
