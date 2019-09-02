@@ -20,7 +20,7 @@ public class RefactoringPerformController {
     RefactoringPerformService refactoringPerformService;
     @PostMapping("/uploadMatrix")
     @ResponseBody
-    public TagMatrixDTO uploadMatrix(@RequestParam(value="matrix[]") String m) {
+    public TagMatrixDTO uploadMatrix(@RequestParam(value="matrix") String m) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             double[][] matrix = objectMapper.readValue(m, double[][].class);
