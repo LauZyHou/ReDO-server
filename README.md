@@ -1,5 +1,5 @@
-# Refactoring Project
-Tools for refactoring during the design phase.
+# Software Reconstruction Tool - Server
+Tools for software reconstruction (namely refactoring) during the design phase.
 
 ## Target
 
