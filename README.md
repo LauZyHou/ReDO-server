@@ -32,13 +32,21 @@ Warranty is supported according to Github. If bugs are reported, fixing and stre
 
 ## Technology Stack
 
-Website: vue2 + vue-router + npm + ES6 + ajax + jsonp
+Website: vue2 + vue-router + npm + ES6 + ajax + json + redis
 
-Server: Jama + graphviz (static output) + Spring Boot (future)
+Server: Jama + graphviz (static output) + Spring Boot
 
 Test Framework: JUnit + Mockito + Hamcrest + Coverage Runner (reports will be supported in the future)
 
-For the website part of this project, see [here](github.com/inyee17/refactoring).
+For the website part of this project, see [here](github.com/ivyee17/software-reconstruction-website).
+
+## Deployment
+
+1. Open redis with localhost:6387
+2. Open mysql with table username (defined in dao.user)
+3. Make sure server port 8091 is not used by other apps
+4. Load SpringBoot with Java
+5. Enjoy!
 
 ## References
 
