@@ -23,7 +23,8 @@ public class RefactoringPerformService {
      * @return The head node of refactored structure, which is filled with complexity matrix
      */
     public RefactorNode performRefactoring(double[][] matrix){
-        String res1 = GeneticAlgorithm.refactor(matrix);
+        String res1;
+        res1= GeneticAlgorithm.refactor(matrix);
         BraceToTree braceToTree=new BraceToTree();
         RefactorNode res = braceToTree.convert(res1);
         List<String> label=new ArrayList<>();
@@ -33,5 +34,22 @@ public class RefactoringPerformService {
         res.generateStructuredComplexityMatrix(matrix,label);
         store.push(res);
         return res;
+    }
+
+    public List<RefactorNode> listAllNodes(RefactorNode rn){
+        List<RefactorNode> ret=new ArrayList<>();
+        ret.add(rn);
+        List<RefactorNode> children = rn.getNodes();
+        for(int i=0;i<children.size();i++){
+            ret.addAll(listAllNodes(children.get(i)));
+        }
+
+
+        return ret;
+
+    }
+
+    public double calculateComplexity(double[][] matrix) {
+        return GeneticAlgorithm.cal_alpha(matrix)+GeneticAlgorithm.cal_data(matrix);
     }
 }

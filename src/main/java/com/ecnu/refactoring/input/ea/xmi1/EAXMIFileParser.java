@@ -53,14 +53,16 @@ public class EAXMIFileParser implements FileParser {
         // Class complexity
         for(int i=0;i<classes.size();i++){
            UMLClass umlClass= classes.get(i);
+            System.out.println(umlClass.getName());
             res[i][i]+=umlClass.getOperations().size()*1.0d;
             res[i][i]+=umlClass.getAttributes().size()*0.5d;
         }
         // Connector complexity
         for(UMLConnector c:connectors){
+            System.out.println("toIndex = " +c.getToId()+"fromId="+ c.getFromId());
            int fromIndex= findClassIndex(c.getFromId());
            int toIndex=findClassIndex(c.getToId());
-           System.out.println("toIndex = " +c.getToId()+"fromId="+ c.getFromId());
+
            if(c instanceof UMLGeneralization || c instanceof UMLDependency){ // Generalization or Implementation
                res[fromIndex][toIndex]+=4.0d;
                res[toIndex][fromIndex]+=4.0d;

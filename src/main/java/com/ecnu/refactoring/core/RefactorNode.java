@@ -60,13 +60,7 @@ public class RefactorNode {
         return combined;
     }
 
-    @Override
-    public String toString() {
-        return "RefactorNode{" +
-                "data='" + data + '\'' +
-                ", nodes=" + nodes +
-                '}';
-    }
+
 
 
     public int countAllSubNodes(){

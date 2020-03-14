@@ -1,5 +1,9 @@
 package com.ecnu.refactoring.entity;
 
+import com.ecnu.refactoring.input.RefactorMatrix;
+
+import java.sql.Ref;
+
 public class TagMatrixDTO {
     private double[][] matrix;
    private String[] tag;
@@ -13,6 +17,13 @@ public class TagMatrixDTO {
         if(matrix.length!=matrix[0].length){return;}
         this.matrix = matrix;
         this.tag = tag;
+        this.name=name;
+    }
+
+    public TagMatrixDTO(RefactorMatrix rm, String name) {
+
+        this.matrix = rm.getRefactorMatrix();;
+        this.tag = rm.getColumnMeaning();
         this.name=name;
     }
 
@@ -39,4 +50,6 @@ public class TagMatrixDTO {
     public void setTag(String[] tag) {
         this.tag = tag;
     }
+
+
 }

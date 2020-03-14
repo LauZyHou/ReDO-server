@@ -123,10 +123,24 @@ public class GraphDisplayWindow extends JFrame {
         });
         subGraphClickBar.add(fileUp);
 
+        // Extract column meaning from node.
+        String[] columnNames=new String[refactorNode.getNodes().size()];
+        for(int i=0;i<refactorNode.getNodes().size();i++){
+            String str=refactorNode.getNodes().get(i).getData();
+            if(!refactorNode.getNodes().get(i).isCombined()) {
+                int index = Integer.parseInt(str);
+                columnNames[i]= columnMeaning[index];
+            }
+            else{
+                columnNames[i]=str;
+            }
+        }
+
 
         for (int i = 0; i < nodes.size(); i++) {
             RefactorNode t = nodes.get(i);
-            JButton button = new JButton(nodes.get(i).getData());
+//            JButton button = new JButton(nodes.get(i).getData());
+            JButton button = new JButton(columnNames[i]);
             if(t.isCombined())  button.setEnabled(true);
             else button.setEnabled(false);
             button.addActionListener(e -> {

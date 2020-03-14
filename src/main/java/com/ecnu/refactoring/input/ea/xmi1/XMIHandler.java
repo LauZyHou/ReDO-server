@@ -47,6 +47,7 @@ public class XMIHandler extends DefaultHandler {
      *        </UML:Operation>
      * 	  </UML:Classifier.feature>
      * </UML:Class>
+     * interface here deal as class
      * @param uri
      * @param localName
      * @param qName
@@ -61,7 +62,7 @@ public class XMIHandler extends DefaultHandler {
             parse=true;
             return;
         }
-        if(parse&&qName.equals("UML:Class")){
+        if(parse&&(qName.equals("UML:Class")||qName.equals("UML:Interface"))){
             parseClass=true;
             parsingClass=new UMLClass(attributes);
             return;
@@ -145,7 +146,7 @@ return;
             parseAttribute=false;
             return;
         }
-        if(parse&&parseClass&&qName.equals("UML:Class")){
+        if(parse&&parseClass&&(qName.equals("UML:Class")||qName.equals("UML:Interface"))){
             parseClass=false;
             classes.add(parsingClass);
             return;
