@@ -98,7 +98,7 @@ public class RefactoringPerformController {
     public Map<String,Double> calculateComplexity(@RequestParam(value="matrix") double[] m) {
         try {
             double[][] matrix=change1DimArrayTo2Dim(m);
-            RefactorNode rootNode = refactoringPerformService.performRefactoring(matrix);
+//            RefactorNode rootNode = refactoringPerformService.performRefactoring(matrix);
             double value=refactoringPerformService.calculateComplexity(matrix);
             Map<String,Double> res=new HashMap<>();
             res.put("complexity",value);

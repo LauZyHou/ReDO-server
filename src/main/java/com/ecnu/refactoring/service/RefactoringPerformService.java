@@ -24,7 +24,9 @@ public class RefactoringPerformService {
      */
     public RefactorNode performRefactoring(double[][] matrix){
         String res1;
+        System.out.println(Arrays.deepToString(matrix));
         res1= GeneticAlgorithm.refactor(matrix);
+        System.out.println(res1);
         BraceToTree braceToTree=new BraceToTree();
         RefactorNode res = braceToTree.convert(res1);
         List<String> label=new ArrayList<>();

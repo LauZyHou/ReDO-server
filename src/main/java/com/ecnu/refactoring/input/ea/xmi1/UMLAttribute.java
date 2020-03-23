@@ -41,4 +41,18 @@ private Map<String,String> taggedValue;
 
         taggedValue.put(tag,value);
     }
+
+    @Override
+    public String toString() {
+        return "UMLAttribute{" +
+                "name='" + name + '\'' +
+                ", changeable='" + changeable + '\'' +
+                ", visibility=" + visibility +
+                ", ownerScope='" + ownerScope + '\'' +
+                ", targetScope='" + targetScope + '\'' +
+                ", initialValue='" + initialValue + '\'' +
+                ", type='" + type + '\'' +
+                ", taggedValue=" + taggedValue +
+                '}';
+    }
 }
