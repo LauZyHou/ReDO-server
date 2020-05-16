@@ -1,5 +1,5 @@
-# Software Reconstruction Tool - Server
-Tools for software reconstruction (namely refactoring) during the design phase.
+# RoDS - Server
+Tools for generating developing sequence during the design phase.
 
 ## Target
 
@@ -15,7 +15,7 @@ Tools for software reconstruction (namely refactoring) during the design phase.
 
 Page preview: Unavailable.
 
-Tool aims to provide a solution for the reconstruction of design class diagrams, and realize the transformation tool from SysML diagrams to component diagrams, so as to better analyze user needs and reduce design standards.
+Tool aims to generate developing sequence during the design phase, and realize the transformation tool from UML diagrams to component diagrams, so as to better analyze user needs and reduce design standards.
 
 Both static export (including PDF and SVG formats) and dynamic support (web and mobile access) is supported.
 
