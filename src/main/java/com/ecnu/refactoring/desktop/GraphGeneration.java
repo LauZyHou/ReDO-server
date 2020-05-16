@@ -1,5 +1,5 @@
 package com.ecnu.refactoring.desktop;
-import com.ecnu.refactoring.core.RefactorNode;
+import com.ecnu.refactoring.core.PhaseNode;
 import guru.nidi.graphviz.engine.*;
 import org.slf4j.impl.StaticLoggerBinder;
 
@@ -46,8 +46,8 @@ public class GraphGeneration {
         return image;
     }
 
-    public BufferedImage generateByRefactorNode(RefactorNode showNode,String[] columnMeaning) {
-        double[][]matrix= showNode.getComplexityMatrix();
+    public BufferedImage generateByRefactorNode(PhaseNode showNode, String[] columnMeaning) {
+        double[][]matrix= showNode.getCostMatrix();
         String[] columnNames=new String[showNode.getNodes().size()];
         for(int i=0;i<showNode.getNodes().size();i++){
             String str=showNode.getNodes().get(i).getData();

@@ -5,12 +5,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 
-public class RefactorNode {
+public class PhaseNode {
     private String data;
-    private List<RefactorNode> nodes; // RefactorNode.data type
-    private double[][] complexityMatrix;
-    public RefactorNode(String data){
-        this.nodes=new ArrayList<RefactorNode>();
+    private List<PhaseNode> nodes; // RefactorNode.data type
+    private double[][] costMatrix;
+    public PhaseNode(String data){
+        this.nodes=new ArrayList<PhaseNode>();
         this.data=data;
     }
     private boolean combined=false;
@@ -23,7 +23,7 @@ public class RefactorNode {
         return res;
     }
 
-    public void addChild(RefactorNode child){
+    public void addChild(PhaseNode child){
         this.nodes.add(child);
     }
 
@@ -31,7 +31,7 @@ public class RefactorNode {
         return data;
     }
 
-    public List<RefactorNode> getNodes() {
+    public List<PhaseNode> getNodes() {
         return nodes;
     }
 
@@ -39,8 +39,8 @@ public class RefactorNode {
         headNameGeneration(nodes.get(0).getData());
     }
 
-    public double[][] getComplexityMatrix() {
-        return complexityMatrix;
+    public double[][] getCostMatrix() {
+        return costMatrix;
     }
 
 
@@ -97,12 +97,12 @@ public class RefactorNode {
 
     public void generateStructuredComplexityMatrix(double[][] unstructuredMatrix, List<String> columnMeaning) {
         if(nodes.isEmpty()){
-            complexityMatrix=unstructuredMatrix;
+            costMatrix =unstructuredMatrix;
             return;
         }
-        Map<RefactorNode,Double> moduleComplexity=new ConcurrentHashMap<>();
+        Map<PhaseNode,Double> moduleComplexity=new ConcurrentHashMap<>();
         /// Can parallel!
-        for(RefactorNode r:nodes){
+        for(PhaseNode r:nodes){
             List<String> subnodes=r.findAllLeafNodes();
             int[] nodesReadyForExtract=convertFromNodesMeaningToMatrixIndex(subnodes,columnMeaning);
             double[][] subMatrix=new double[nodesReadyForExtract.length][nodesReadyForExtract.length];
@@ -123,20 +123,20 @@ public class RefactorNode {
     }
 
     /**
-     * Try to construct complexity matrix.
+     * Try to construct cost matrix.
      * Optimize: matrix is symmetrics-- a new Java Class to store, get and set.
-     * Complexity is O(n*n*m*m), n is the column of unstructuredMatrix, m is the column of complexityMatrix in this class.
+     * Complexity is O(n*n*m*m), n is the column of unstructuredMatrix, m is the column of costMatrix in this class.
      * @param unstructuredMatrix
      * @param columnMeaning
-     * @param moduleComplexity
+     * @param costComplexity
      */
-    private void constructComplexityMatrix(double[][] unstructuredMatrix, List<String> columnMeaning, Map<RefactorNode, Double> moduleComplexity) {
-        complexityMatrix=new double[nodes.size()][nodes.size()];
-        for(int i=0;i<complexityMatrix.length;i++){
-            for(int j=0;j<complexityMatrix.length;j++){
+    private void constructComplexityMatrix(double[][] unstructuredMatrix, List<String> columnMeaning, Map<PhaseNode, Double> costComplexity) {
+        costMatrix =new double[nodes.size()][nodes.size()];
+        for(int i = 0; i< costMatrix.length; i++){
+            for(int j = 0; j< costMatrix.length; j++){
                 if(i==j){
-                    Double p=moduleComplexity.get(nodes.get(i));
-                    complexityMatrix[i][j]=p;
+                    Double p=costComplexity.get(nodes.get(i));
+                    costMatrix[i][j]=p;
                 }
                 else{
                     int [] sources=convertFromNodesMeaningToMatrixIndex(nodes.get(i).findAllLeafNodes(),columnMeaning);
@@ -147,7 +147,7 @@ public class RefactorNode {
                             summary+=unstructuredMatrix[ sources[ii]][destinations[jj]];
                         }
                     }
-                    complexityMatrix[i][j]=summary;
+                    costMatrix[i][j]=summary;
                 }
             }
         }

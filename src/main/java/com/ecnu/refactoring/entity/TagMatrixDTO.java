@@ -1,8 +1,6 @@
 package com.ecnu.refactoring.entity;
 
-import com.ecnu.refactoring.input.RefactorMatrix;
-
-import java.sql.Ref;
+import com.ecnu.refactoring.input.CostMatrix;
 
 public class TagMatrixDTO {
     private double[][] matrix;
@@ -20,9 +18,9 @@ public class TagMatrixDTO {
         this.name=name;
     }
 
-    public TagMatrixDTO(RefactorMatrix rm, String name) {
+    public TagMatrixDTO(CostMatrix rm, String name) {
 
-        this.matrix = rm.getRefactorMatrix();;
+        this.matrix = rm.getCostMatrix();;
         this.tag = rm.getColumnMeaning();
         this.name=name;
     }

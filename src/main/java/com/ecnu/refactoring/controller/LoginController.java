@@ -1,28 +1,18 @@
 package com.ecnu.refactoring.controller;
 
-import com.ecnu.refactoring.core.RefactorNode;
 import com.ecnu.refactoring.dao.User;
-import com.ecnu.refactoring.entity.TagMatrixDTO;
-import com.ecnu.refactoring.input.FileParser;
-import com.ecnu.refactoring.input.RefactorMatrix;
-import com.ecnu.refactoring.input.ea.xmi1.EAXMIFileParser;
 
 import com.ecnu.refactoring.service.UserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.File;
 import java.util.*;
-import java.util.logging.Logger;
 
 //import java.io.File;
 
@@ -60,7 +50,7 @@ private UserService userService;
 
     @PostMapping("/login")
     @ResponseBody
-    public Map<String,String> login(@RequestParam(value="username") String username,@RequestParam(value="password") String password,HttpServletRequest request, HttpSession session) {
+    public Map<String,String> login(@RequestParam(value="username") String username,@RequestParam(value="password") String password,HttpSession session) {
         // validate, assume is true (front-end check)
         Map<String,String> m=new HashMap<>();
 

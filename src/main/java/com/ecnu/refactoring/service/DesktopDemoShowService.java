@@ -1,19 +1,15 @@
 package com.ecnu.refactoring.service;
 
-import com.ecnu.refactoring.core.RefactorNode;
+import com.ecnu.refactoring.core.PhaseNode;
 import com.ecnu.refactoring.desktop.GraphDisplayWindow;
-import com.ecnu.refactoring.input.RefactorMatrix;
+import com.ecnu.refactoring.input.CostMatrix;
 import com.ecnu.refactoring.input.ea.xmi1.EAXMIFileParser;
 
 import javax.swing.*;
 import java.io.File;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class DesktopDemoShowService {
-    static RefactoringPerformService refactoringPerformService = new RefactoringPerformService();
+    static DevelopingSequencePerformService developingSequencePerformService = new DevelopingSequencePerformService();
 
     public static void initialShow(){
 
@@ -23,7 +19,7 @@ public class DesktopDemoShowService {
             double[][] com=new double[1][1];
             com[0][0]=1;
 
-            RefactorNode r = refactoringPerformService.performRefactoring(com);
+            PhaseNode r = developingSequencePerformService.performRefactoring(com);
             GraphDisplayWindow graphDisplayWindow = new GraphDisplayWindow(r,m);
             graphDisplayWindow.setVisible(true);
             return;
@@ -32,10 +28,10 @@ public class DesktopDemoShowService {
     }
     public static void show(File f, JFrame frame){
         EAXMIFileParser parser=new EAXMIFileParser();
-        RefactorMatrix refactorMatrix;
+        CostMatrix refactorMatrix;
         try {
             refactorMatrix= parser.parseFile(f);
-            RefactorNode refactorNode = refactoringPerformService.performRefactoring(refactorMatrix.getRefactorMatrix());
+            PhaseNode refactorNode = developingSequencePerformService.performRefactoring(refactorMatrix.getCostMatrix());
             frame.setEnabled(false);
             frame.setVisible(false);
             frame = new GraphDisplayWindow(refactorNode,refactorMatrix.getColumnMeaning());

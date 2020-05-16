@@ -1,7 +1,7 @@
 package com.ecnu.refactoring.input.ea.xmi1;
 
 import com.ecnu.refactoring.input.FileParser;
-import com.ecnu.refactoring.input.RefactorMatrix;
+import com.ecnu.refactoring.input.CostMatrix;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -20,11 +20,11 @@ public class EAXMIFileParser implements FileParser {
 
 
     @Override
-    public RefactorMatrix parseFile(File file) throws Exception {
+    public CostMatrix parseFile(File file) throws Exception {
         parseXMLFile(file);
         double[][] matrix=generateMatrix();
         List<String> tag=generateTag();
-        return new RefactorMatrix(matrix,tag.toArray(new String[tag.size()]));
+        return new CostMatrix(matrix,tag.toArray(new String[tag.size()]));
     }
 
     private List<String> generateTag() {

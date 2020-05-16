@@ -1,24 +1,23 @@
 package com.ecnu.refactoring.input;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Arrays;
 
 @Getter
-public class RefactorMatrix {
-    double[][] refactorMatrix;
+public class CostMatrix {
+    double[][] costMatrix;
     String[] columnMeaning;
 
-    public RefactorMatrix(double[][] refactorMatrix, String[] columnMeaning) {
-        this.refactorMatrix = refactorMatrix;
+    public CostMatrix(double[][] costMatrix, String[] columnMeaning) {
+        this.costMatrix = costMatrix;
         this.columnMeaning = columnMeaning;
     }
 
     @Override
     public String toString() {
         return "RefactorMatrix{" +
-                "refactorMatrix=" + Arrays.deepToString(refactorMatrix) +
+                "costMatrix=" + Arrays.deepToString(costMatrix) +
                 ", columnMeaning=" + Arrays.toString(columnMeaning) +
                 '}';
     }

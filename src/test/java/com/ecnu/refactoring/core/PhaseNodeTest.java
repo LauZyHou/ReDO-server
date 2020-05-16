@@ -7,8 +7,8 @@ import org.junit.Test;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.junit.Assert.*;
 
-public class RefactorNodeTest {
-    static RefactorNode res;
+public class PhaseNodeTest {
+    static PhaseNode res;
     @BeforeClass
     public static void bb(){
         BraceToTree braceToTree=new BraceToTree();

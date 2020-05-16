@@ -35,11 +35,11 @@ public class BraceToTree {
     }
 
     //"(( ((1,2,9),0,3,7),4,10) ,5,6,8,11,12)"
-    public RefactorNode changeBrace(int pos){
+    public PhaseNode changeBrace(int pos){
         
         int startPosition=pos;
         int i=pos;
-        RefactorNode head=new RefactorNode(null);
+        PhaseNode head=new PhaseNode(null);
         while(i<str.length()){
             Logger.getGlobal().info( "i="+i);
             if(str.charAt(i)==','){
@@ -47,7 +47,7 @@ public class BraceToTree {
                 if(str.charAt(startPosition)!='('){
                     Logger.getGlobal().info(str.substring(startPosition,i));
                     int parseResult=Integer.parseInt(str.substring(startPosition,i));
-                    head.addChild(new RefactorNode( String.valueOf(parseResult)));
+                    head.addChild(new PhaseNode( String.valueOf(parseResult)));
 
                 }
                 startPosition=i+1;
@@ -63,7 +63,7 @@ public class BraceToTree {
                 Logger.getGlobal().info(""+str.charAt(startPosition));
                 if(str.charAt(startPosition)!='('){
                     int parseResult=Integer.parseInt(str.substring(startPosition,i));
-                    head.addChild(new RefactorNode( String.valueOf(parseResult)));
+                    head.addChild(new PhaseNode( String.valueOf(parseResult)));
                     Logger.getGlobal().info("out"+i);
                 }
                 head.setData();
@@ -75,7 +75,7 @@ public class BraceToTree {
         }
         if(startPosition!=str.length() && str.charAt(startPosition)!='(') {
             int parseResult = Integer.parseInt(str.substring(startPosition));
-            head.addChild(new RefactorNode(String.valueOf(parseResult)));
+            head.addChild(new PhaseNode(String.valueOf(parseResult)));
         }
         head.setData();
 //        refactorNode=head;
@@ -87,7 +87,7 @@ public class BraceToTree {
      * @param braceString Should be with/without braces. e.g. (2), (2,(3)), ...
      * @return the refactored structure
      */
-    public RefactorNode convert(String braceString)  {
+    public PhaseNode convert(String braceString)  {
         str=braceString;
         if(braceString.charAt(0)=='('&&parenthesesMatch(0)==str.length()-1){
 //            throw new Exception("Format error: Should be surrounded by braces");

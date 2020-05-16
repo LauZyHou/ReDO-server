@@ -1,31 +1,28 @@
 package com.ecnu.refactoring.controller;
 
-import com.ecnu.refactoring.core.RefactorNode;
+import com.ecnu.refactoring.core.PhaseNode;
 import com.ecnu.refactoring.entity.TagMatrixDTO;
 import com.ecnu.refactoring.input.FileParser;
-import com.ecnu.refactoring.input.RefactorMatrix;
+import com.ecnu.refactoring.input.CostMatrix;
 import com.ecnu.refactoring.input.ea.xmi1.EAXMIFileParser;
-import com.ecnu.refactoring.service.RefactoringPerformService;
+import com.ecnu.refactoring.service.DevelopingSequencePerformService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.xml.internal.bind.api.impl.NameConverter;
-import org.apache.tomcat.util.json.JSONParser;
+//import com.sun.xml.internal.bind.api.impl.NameConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.support.*;
 
 //import java.io.File;
 import java.io.File;
-import java.net.URI;
 import java.util.*;
 import java.util.logging.Logger;
 
 @Controller
 //@CrossOrigin(origins = "*",allowCredentials="true",allowedHeaders = "",methods = {})
-public class RefactoringPerformController {
+public class DevelopingSequencePerformController {
     @Autowired
-    RefactoringPerformService refactoringPerformService;
+    DevelopingSequencePerformService developingSequencePerformService;
 
     /**
      * Warn: No params check whether is a square number
@@ -52,13 +49,13 @@ public class RefactoringPerformController {
             double[][] matrix=change1DimArrayTo2Dim(m);
             Logger.getGlobal().info(Arrays.deepToString(matrix));
 
-            RefactorNode rootNode = refactoringPerformService.performRefactoring(matrix);
+            PhaseNode rootNode = developingSequencePerformService.performRefactoring(matrix);
 
-            List<RefactorNode> nodes= refactoringPerformService.listAllNodes(rootNode);
+            List<PhaseNode> nodes= developingSequencePerformService.listAllNodes(rootNode);
             List<TagMatrixDTO> ret=new ArrayList<>();
             for(int i=0;i<nodes.size();i++){
-                RefactorNode rn=nodes.get(i);
-                double[][] res = rn.getComplexityMatrix();
+                PhaseNode rn=nodes.get(i);
+                double[][] res = rn.getCostMatrix();
                 String[] meaning = rn.getChildData();
                 String name=rn.getData();
                 TagMatrixDTO tagMatrixDTO=new TagMatrixDTO(res, meaning, name);
@@ -82,7 +79,7 @@ public class RefactoringPerformController {
             fileList.transferTo(f);
 
             FileParser fp=new EAXMIFileParser();
-            RefactorMatrix rm= fp.parseFile(f);
+            CostMatrix rm= fp.parseFile(f);
             TagMatrixDTO tagMatrixDTO=new TagMatrixDTO(rm,fileList.getOriginalFilename());
             Logger.getGlobal().info(rm.toString());
             return tagMatrixDTO;
@@ -95,11 +92,11 @@ public class RefactoringPerformController {
 
     @PostMapping("/calculate-complexity")
     @ResponseBody
-    public Map<String,Double> calculateComplexity(@RequestParam(value="matrix") double[] m) {
+    public Map<String,Double> calculateCost(@RequestParam(value="matrix") double[] m) {
         try {
             double[][] matrix=change1DimArrayTo2Dim(m);
-//            RefactorNode rootNode = refactoringPerformService.performRefactoring(matrix);
-            double value=refactoringPerformService.calculateComplexity(matrix);
+//            RefactorNode rootNode = developingSequencePerformService.performRefactoring(matrix);
+            double value= developingSequencePerformService.calculateComplexity(matrix);
             Map<String,Double> res=new HashMap<>();
             res.put("complexity",value);
             return res;

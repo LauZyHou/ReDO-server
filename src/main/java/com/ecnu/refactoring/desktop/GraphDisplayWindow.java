@@ -1,6 +1,6 @@
 package com.ecnu.refactoring.desktop;
 
-import com.ecnu.refactoring.core.RefactorNode;
+import com.ecnu.refactoring.core.PhaseNode;
 import com.ecnu.refactoring.service.DesktopDemoShowService;
 
 import javax.swing.*;
@@ -19,7 +19,7 @@ public class GraphDisplayWindow extends JFrame {
     private JToolBar subGraphClickBar;
     private JLabel picture;
     private JPanel contentPane;
-    private Stack<RefactorNode> history;
+    private Stack<PhaseNode> history;
     //Very bad design!!!
     private String[] columnMeaning;
     private GraphGeneration graphGeneration;
@@ -31,7 +31,7 @@ public class GraphDisplayWindow extends JFrame {
      * Just initial the window, and run {@method displayNodeGraph} method.
      * @param displayNode initial node
      */
-    public GraphDisplayWindow(RefactorNode displayNode,String[] columnMeaning) {
+    public GraphDisplayWindow(PhaseNode displayNode, String[] columnMeaning) {
         // Title bar
         super("Graph Display");
         // respond to the window system asking us to quit
@@ -58,7 +58,7 @@ public class GraphDisplayWindow extends JFrame {
         displayNodeGraph(displayNode);
     }
 
-    public void displayNodeGraph(RefactorNode displayNode) {
+    public void displayNodeGraph(PhaseNode displayNode) {
         contentPane.removeAll();
         System.out.println(displayNode.getNodes().size());
         BufferedImage image = graphGeneration.generateByRefactorNode(displayNode,columnMeaning);
@@ -110,8 +110,8 @@ public class GraphDisplayWindow extends JFrame {
         return new Dimension(width,height);
     }
 
-    private void setBarButtons(RefactorNode refactorNode) {
-        List<RefactorNode> nodes=refactorNode.getNodes();
+    private void setBarButtons(PhaseNode refactorNode) {
+        List<PhaseNode> nodes=refactorNode.getNodes();
         subGraphClickBar.removeAll();
 
         JButton fileUp = new JButton("Upload File...");
@@ -138,7 +138,7 @@ public class GraphDisplayWindow extends JFrame {
 
 
         for (int i = 0; i < nodes.size(); i++) {
-            RefactorNode t = nodes.get(i);
+            PhaseNode t = nodes.get(i);
 //            JButton button = new JButton(nodes.get(i).getData());
             JButton button = new JButton(columnNames[i]);
             if(t.isCombined())  button.setEnabled(true);
@@ -156,7 +156,7 @@ public class GraphDisplayWindow extends JFrame {
             button.setEnabled(true);
             button.addActionListener(e -> {
 
-                RefactorNode his= history.pop();
+                PhaseNode his= history.pop();
                 displayNodeGraph(his);
 
             });

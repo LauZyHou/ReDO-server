@@ -33,7 +33,7 @@ public class BraceToTreeTest {
         //when( braceToTree.headNameGeneration(anyString())).thenAnswer(answer);
     }
 
-    public String refactorNodePrint(RefactorNode rn) {
+    public String refactorNodePrint(PhaseNode rn) {
         if (rn.getNodes().size() == 0) {
             return rn.getData();
         }
@@ -50,25 +50,25 @@ public class BraceToTreeTest {
 
     @Test
     public void convertTest() {
-        RefactorNode res = braceToTree.convert("(1,(10,(30,40)),(3,4,5))");
+        PhaseNode res = braceToTree.convert("(1,(10,(30,40)),(3,4,5))");
         assertEquals("1c[1, 10c[10, 30c[30, 40]], 3c[3, 4, 5]]", refactorNodePrint(res));
     }
 
     @Test
     public void convertWithoutOuterBraceTest() {
-        RefactorNode res = braceToTree.convert("1,(10,(30,40)),(3,4,5)");
+        PhaseNode res = braceToTree.convert("1,(10,(30,40)),(3,4,5)");
         assertEquals("1c[1, 10c[10, 30c[30, 40]], 3c[3, 4, 5]]", refactorNodePrint(res));
     }
 
     @Test
     public void convertTest2() {
-        RefactorNode res = braceToTree.convert("((((1,2,9),0,3,7),4,10),5,6,8,11,12)");
+        PhaseNode res = braceToTree.convert("((((1,2,9),0,3,7),4,10),5,6,8,11,12)");
         assertEquals("1cccc[1ccc[1cc[1c[1, 2, 9], 0, 3, 7], 4, 10], 5, 6, 8, 11, 12]", refactorNodePrint(res));
     }
 
     @Test
     public void convertWithLotsOfBrace() {
-        RefactorNode res = braceToTree.convert("(1),(2),((3),(4,((((5)))))),(13,14,15)");
+        PhaseNode res = braceToTree.convert("(1),(2),((3),(4,((((5)))))),(13,14,15)");
         assertEquals("1cc[1c[1], 2c[2], 3cc[3c[3], 4c[4, 5cccc[5ccc[5cc[5c[5]]]]]], 13c[13, 14, 15]]", refactorNodePrint(res));
     }
 
