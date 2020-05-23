@@ -15,7 +15,7 @@ Tools for generating developing order during the design phase.
 
 Page preview: Unavailable.
 
-Tool aims to generate developing sequence during the design phase, and realize the transformation tool from UML diagrams to component diagrams, so as to better analyze user needs and reduce design standards.
+Tool aims to generate developing order during the design phase, and realize the transformation tool from UML diagrams to phase tree, so as to better analyze user needs and reduce design standards.
 
 Both static export (including PDF and SVG formats) and dynamic support (web and mobile access) is supported.
 
