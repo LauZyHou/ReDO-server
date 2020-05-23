@@ -1,5 +1,5 @@
-# RoDS - Server
-Tools for generating developing sequence during the design phase.
+# ReDO - Server
+Tools for generating developing order during the design phase.
 
 ## Target
 
