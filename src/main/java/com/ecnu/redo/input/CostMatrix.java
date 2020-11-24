@@ -21,4 +21,12 @@ public class CostMatrix {
                 ", columnMeaning=" + Arrays.toString(columnMeaning) +
                 '}';
     }
+
+    public String[] getColumnMeaning() {
+        return columnMeaning;
+    }
+
+    public double[][] getCostMatrix() {
+        return costMatrix;
+    }
 }

@@ -5,13 +5,12 @@ import com.ecnu.redo.dao.User;
 import com.ecnu.redo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.swing.plaf.IconUIResource;
 import java.util.*;
 
 //import java.io.File;
@@ -26,6 +25,7 @@ private UserService userService;
     @PostMapping("/session")
     @ResponseBody
     public Map<String,String> springSession(HttpServletRequest request, HttpSession session) {
+        System.out.println("/session执行了");
         Cookie[] cookies = request.getCookies();
         if (cookies != null && cookies.length > 0) {
             for (Cookie cookie : cookies) {
@@ -51,6 +51,7 @@ private UserService userService;
     @PostMapping("/login")
     @ResponseBody
     public Map<String,String> login(@RequestParam(value="username") String username,@RequestParam(value="password") String password,HttpSession session) {
+        System.out.println("/login执行了");
         // validate, assume is true (front-end check)
         Map<String,String> m=new HashMap<>();
 
@@ -70,6 +71,7 @@ private UserService userService;
     @PostMapping("/sessionOut")
     @ResponseBody
     public Map<String,String> sessionOut(HttpServletRequest request, HttpSession session) {
+        System.out.println("/sessionOut执行了");
         Object value = session.getAttribute("username");
         session.removeAttribute("username");
         Map<String,String> m=new HashMap<>();
@@ -83,9 +85,19 @@ private UserService userService;
                                        @RequestParam(value="password") String password,
                                        @RequestParam(value="email") String email,
                                        @RequestParam(value="company") String company) {
+        System.out.println("/register执行了");
         // validate, assume is true
         System.out.println(username+password+email+company);
         userService.insert(new User(username,password,email,company));
         return null;
+    }
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, String> test() {
+        System.out.println("test执行了");
+        Map<String, String> ans = new HashMap<>();
+        ans.put("ok", "woqu");
+        return ans;
     }
 }

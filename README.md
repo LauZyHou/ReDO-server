@@ -11,6 +11,25 @@ Tools for generating developing order during the design phase.
 </div>
 
 
+## 相关组件
+在默认端口（6379）开启Redis：
+```bash
+redis-server
+```
+
+在MySQL里建立scheme，名为`reconstruction`，在其下建立一张`user`表，四个字段是`username`、`password`、`email`、`company`，都是字符串就行了，我这里是`varchar(20)`。
+
+开启MySQL服务，用管理员身份打开CMD，执行：
+```
+net start mysql
+```
+
+如要关闭Redis，执行：
+```
+redis-cli shutdown
+```
+
+
 ## Introduction
 
 Page preview: Unavailable.
@@ -42,7 +61,7 @@ For the website part of this project, see [here](github.com/ivyee17/software-rec
 
 ## Deployment
 
-1. Open redis with localhost:6387
+1. Open redis with localhost:6379
 2. Open mysql with table username (defined in dao.user)
 3. Make sure server port 8091 is not used by other apps
 4. Load SpringBoot with Java

@@ -16,7 +16,7 @@ public class XMIHandler extends DefaultHandler {
     private boolean parseClass;
     private boolean parseOperation;
     private boolean parseAttribute;
-    private boolean parseConnector=false;
+    private boolean parseConnector = false;
 
     private UMLClass parsingClass;
     private UMLOperation parsingOperation;
@@ -26,28 +26,29 @@ public class XMIHandler extends DefaultHandler {
     private UMLPackage packagee;
     private List<UMLClass> classes;
     private List<UMLConnector> connectors;
-    private Map<String,String> eaStubs;
+    private Map<String, String> eaStubs;
 
     @Override
     public void startDocument() throws SAXException {
         super.startDocument();
-        classes=new ArrayList<>();
-        connectors=new ArrayList<>();
-        eaStubs=new HashMap<>();
+        classes = new ArrayList<>();
+        connectors = new ArrayList<>();
+        eaStubs = new HashMap<>();
         // all boolean set false here.
     }
 
     /**
      * <UML:Class name="CircleGizmo" xmi.id="EAID_01FC39CB_2106_46e7_8F43_1A32D44DAEC3" visibility="public" namespace="EAPK_60F020E8_75B7_4b5d_B378_7F34EFADCD89" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
-     * 	  <UML:ModelElement.taggedValue>...</UML:ModelElement.taggedValue>
-     * 	  <UML:Classifier.feature>
-     * 	  	<UML:Attribute name="Attribute 1" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
-     *        </UML:Attribute>
-     *        <UML:Operation name="CircleGizmo" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
-     *        </UML:Operation>
-     * 	  </UML:Classifier.feature>
+     * <UML:ModelElement.taggedValue>...</UML:ModelElement.taggedValue>
+     * <UML:Classifier.feature>
+     * <UML:Attribute name="Attribute 1" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+     * </UML:Attribute>
+     * <UML:Operation name="CircleGizmo" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
+     * </UML:Operation>
+     * </UML:Classifier.feature>
      * </UML:Class>
      * interface here deal as class
+     *
      * @param uri
      * @param localName
      * @param qName
@@ -57,114 +58,113 @@ public class XMIHandler extends DefaultHandler {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if(qName.equals("UML:Package")){
-            packagee=new UMLPackage(attributes);
-            parse=true;
+        if (qName.equals("UML:Package")) {
+            packagee = new UMLPackage(attributes);
+            parse = true;
             return;
         }
-        if(parse&&(qName.equals("UML:Class")||qName.equals("UML:Interface"))){
-            parseClass=true;
-            parsingClass=new UMLClass(attributes);
+        if (parse && (qName.equals("UML:Class") || qName.equals("UML:Interface"))) {
+            parseClass = true;
+            parsingClass = new UMLClass(attributes);
             return;
         }
 
         //Parsing Class Operation
-        if(parse&&parseClass&&qName.equals("UML:Operation")){
-            parsingOperation=new UMLOperation(attributes);
-            parseOperation=true;
+        if (parse && parseClass && qName.equals("UML:Operation")) {
+            parsingOperation = new UMLOperation(attributes);
+            parseOperation = true;
             return;
         }
-        if(parse&&parseClass&&parseOperation){
-            parsingOperation.parseXMI(uri,localName,qName,attributes);
+        if (parse && parseClass && parseOperation) {
+            parsingOperation.parseXMI(uri, localName, qName, attributes);
             return;
         }
 
         //Parsing Class Attributes
-        if(parse&&parseClass&&qName.equals("UML:Attribute")){
-            parsingAttribute=new UMLAttribute(attributes);
-            parseAttribute=true;
+        if (parse && parseClass && qName.equals("UML:Attribute")) {
+            parsingAttribute = new UMLAttribute(attributes);
+            parseAttribute = true;
             return;
         }
-        if(parse&&parseClass&&parseAttribute){
-            parsingAttribute.parseXMI(uri,localName,qName,attributes);
+        if (parse && parseClass && parseAttribute) {
+            parsingAttribute.parseXMI(uri, localName, qName, attributes);
             return;
         }
 
         // generalization
-        if(parse&&qName.equals("UML:Generalization")){
-            parsingConnector=new UMLGeneralization(attributes);
-            parseConnector=true;
+        if (parse && qName.equals("UML:Generalization")) {
+            parsingConnector = new UMLGeneralization(attributes);
+            parseConnector = true;
             return;
         }
-        if(parse&&parseConnector&&qName.equals("UML:TaggedValue")) {
+        if (parse && parseConnector && qName.equals("UML:TaggedValue")) {
             parsingConnector.parseTag(attributes.getValue("tag"), attributes.getValue("value"));
             return;
         }
 
         // association (dependency)
-        if(parse&&qName.equals("UML:Association")){
-            parsingConnector=new UMLAssociation(attributes);
-            parseConnector=true;
+        if (parse && qName.equals("UML:Association")) {
+            parsingConnector = new UMLAssociation(attributes);
+            parseConnector = true;
             return;
         }
-        if(parse&&parseConnector&&qName.equals("UML:AssociationEnd")){
-            if(parsingConnector instanceof UMLAssociation)
-            ((UMLAssociation) parsingConnector).parseConnectionEnd(attributes);
+        if (parse && parseConnector && qName.equals("UML:AssociationEnd")) {
+            if (parsingConnector instanceof UMLAssociation)
+                ((UMLAssociation) parsingConnector).parseConnectionEnd(attributes);
             return;
         }
 
         // implementation
-        if(parse&&qName.equals("UML:Dependency")){
-            parsingConnector=new UMLDependency(attributes);
+        if (parse && qName.equals("UML:Dependency")) {
+            parsingConnector = new UMLDependency(attributes);
             connectors.add(parsingConnector);
             return;
         }
 
-        if(qName.equals("EAStub")){
-            eaStubs.put(attributes.getValue("xmi.id"),attributes.getValue("name"));
-return;
+        if (qName.equals("EAStub")) {
+            eaStubs.put(attributes.getValue("xmi.id"), attributes.getValue("name"));
+            return;
         }
-        System.out.println("start"+uri+" "+localName+" q"+qName+" "+attributes.getValue("xmi:id"));
+        System.out.println("start" + uri + " " + localName + " q" + qName + " " + attributes.getValue("xmi:id"));
     }
 
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
 
-        if(parse&&parseClass&&parseOperation){
-            if(qName.equals("UML:Operation")) {
+        if (parse && parseClass && parseOperation) {
+            if (qName.equals("UML:Operation")) {
                 parseOperation = false;
                 parsingClass.addOperation(parsingOperation);
-            }
-            else{
-                parsingOperation.parseXMIEnd(uri,localName,qName);
+            } else {
+                parsingOperation.parseXMIEnd(uri, localName, qName);
             }
             return;
         }
-        if(parse&&parseClass&&parseAttribute&&qName.equals("UML:Attribute")){
+        if (parse && parseClass && parseAttribute && qName.equals("UML:Attribute")) {
             parsingClass.addAttribute(parsingAttribute);
-            parseAttribute=false;
+            parseAttribute = false;
             return;
         }
-        if(parse&&parseClass&&(qName.equals("UML:Class")||qName.equals("UML:Interface"))){
-            parseClass=false;
+        if (parse && parseClass && (qName.equals("UML:Class") || qName.equals("UML:Interface"))) {
+            parseClass = false;
             classes.add(parsingClass);
             return;
         }
-        if(parse&&qName.equals("UML:Package")){
-            parse=false;
+        if (parse && qName.equals("UML:Package")) {
+            parse = false;
             return;
         }
-        if(parse&&parseConnector&&qName.equals("UML:Generalization")){
-           connectors.add( parsingConnector);
-            parseConnector=false;
+        if (parse && parseConnector && qName.equals("UML:Generalization")) {
+            connectors.add(parsingConnector);
+            parseConnector = false;
             return;
         }
-        if(parse&&parseConnector&&qName.equals("UML:Association")) {
+        if (parse && parseConnector && qName.equals("UML:Association")) {
             if (((UMLAssociation) parsingConnector).getFrom() != null
                     && ((UMLAssociation) parsingConnector).getTo() != null)
                 connectors.add(parsingConnector);
-            else{
+            else {
                 System.out.println("Error in association, this connector will be skipped.");
             }
             parseConnector = false;
