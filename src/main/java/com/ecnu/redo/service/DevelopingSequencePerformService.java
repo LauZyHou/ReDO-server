@@ -3,6 +3,7 @@ package com.ecnu.redo.service;
 import com.ecnu.redo.core.BraceToTree;
 import com.ecnu.redo.core.GeneticAlgorithm;
 import com.ecnu.redo.core.PhaseNode;
+import com.ecnu.redo.core.SpectralClustering;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,8 +26,11 @@ public class DevelopingSequencePerformService {
     public PhaseNode performRefactoring(double[][] matrix) {
         String res1;
         System.out.println(Arrays.deepToString(matrix));
-        res1 = GeneticAlgorithm.refactor(matrix);
+        System.out.println("---------");
+//        res1 = GeneticAlgorithm.refactor(matrix);
+        res1 = SpectralClustering.refactor(matrix);
         System.out.println(res1);
+        System.out.println("---------");
         BraceToTree braceToTree = new BraceToTree();
         PhaseNode res = braceToTree.convert(res1);
         List<String> label = new ArrayList<>();

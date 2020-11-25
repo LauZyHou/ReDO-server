@@ -10,14 +10,15 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 public class ACAO {
 
-    public <T> T myFunc(Class<T> a){
-        try{
+    public <T> T myFunc(Class<T> a) {
+        try {
             return a.newInstance();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-       return null;
+        return null;
     }
+
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();

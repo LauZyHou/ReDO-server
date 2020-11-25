@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.ecnu.redo.*"})
+//@ComponentScan(basePackages = {"com.ecnu.redo.*"})
 @MapperScan("com.ecnu.redo.mapper")
 @EnableSwagger2
 //@ComponentScan(basePackages = {"com.ecnu.redo.config"})
